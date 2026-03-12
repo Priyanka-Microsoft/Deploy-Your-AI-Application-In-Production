@@ -17,6 +17,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Remove postprovision cleanup step from azure.yaml
+        run: |
+          yq -i 'del(.hooks.postprovision[] | select(.run == "./submodules/ai-landing-zone/bicep/scripts/postprovision.ps1"))' azure.yaml
+
       - uses: microsoft/template-validation-action@Latest
         with:
           validateAzd: ${{ vars.TEMPLATE_VALIDATE_AZD }}
